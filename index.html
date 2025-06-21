@@ -1,130 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Excel Project Tracker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="date"],
-    input[type="number"] {
-      width: 100%;
-      padding: 6px;
-      box-sizing: border-box;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid #ccc;
-    }
-
-    th {
-      background-color: #4A90E2;
-      color: white;
-    }
-
-    button {
-      padding: 10px 20px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
-
-    .add-row {
-      background-color: #28a745;
-      color: white;
-      border: none;
-    }
-
-    .submit-btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-    }
-  </style>
-
-  <script>
-    function addRow() {
-      const table = document.getElementById('taskTable').getElementsByTagName('tbody')[0];
-      const row = table.insertRow();
-
-      const fields = ['task', 'status', 'owner', 'start_date', 'end_date', 'priority', 'progress', 'remarks'];
-
-      fields.forEach(field => {
-        const cell = row.insertCell();
-        const input = document.createElement("input");
-        input.name = field;
-        input.required = true;
-
-        if (field === "start_date" || field === "end_date") {
-          input.type = "date";
-        } else if (field === "progress") {
-          input.type = "number";
-          input.min = 0;
-          input.max = 100;
-        } else {
-          input.type = "text";
+    <meta charset="UTF-8">
+    <title>Project Tracker</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f9f9f9;
+            padding: 2rem;
         }
 
-        cell.appendChild(input);
-      });
-    }
-  </script>
+        h2, h3 {
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            width: 100%;
+        }
+
+        .btn {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #357ABD;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Create a Project Tracker</h1>
-  <form action="/create_tracker" method="POST">
-    <label for="project_name">Project Name:</label><br>
-    <input type="text" name="project_name" required><br><br>
+    <h2>Welcome, {{ user }}</h2>
+    <h3>Create a New Project Tracker</h3>
 
-    <table id="taskTable">
-      <thead>
-        <tr>
-          <th>Task</th>
-          <th>Status</th>
-          <th>Owner</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Priority</th>
-          <th>Progress (%)</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input name="task" required></td>
-          <td><input name="status" required></td>
-          <td><input name="owner" required></td>
-          <td><input name="start_date" type="date" required></td>
-          <td><input name="end_date" type="date" required></td>
-          <td><input name="priority" required></td>
-          <td><input name="progress" type="number" min="0" max="100" required></td>
-          <td><input name="remarks" required></td>
-        </tr>
-      </tbody>
-    </table>
+    <form method="POST" action="/create_tracker">
+        <input type="text" name="project_name" placeholder="Project Name" required>
 
-    <button type="button" onclick="addRow()" class="add-row">+ Add Task</button><br>
-    <button type="submit" class="submit-btn">Generate Excel</button>
-  </form>
+        <h4>Task #1</h4>
+        <input type="text" name="task[]" placeholder="Task" required>
+        <input type="text" name="status[]" placeholder="Status">
+        <input type="text" name="owner[]" placeholder="Owner">
+        <input type="date" name="start_date[]" placeholder="Start Date">
+        <input type="date" name="end_date[]" placeholder="End Date">
+        <select name="priority[]">
+            <option disabled selected>Priority</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+        <input type="number" name="progress[]" placeholder="Progress (%)">
+        <input type="text" name="remark[]" placeholder="Remarks">
+
+        <button class="btn" type="submit">Generate Excel Tracker</button>
+    </form>
 
 </body>
 </html>

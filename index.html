@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Excel Project Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #4A90E2;
+      color: white;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .add-row {
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+
+    .submit-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+    }
+  </style>
+
+  <script>
+    function addRow() {
+      const table = document.getElementById('taskTable').getElementsByTagName('tbody')[0];
+      const row = table.insertRow();
+
+      const fields = ['task', 'status', 'owner', 'start_date', 'end_date', 'priority', 'progress', 'remarks'];
+
+      fields.forEach(field => {
+        const cell = row.insertCell();
+        const input = document.createElement("input");
+        input.name = field;
+        input.required = true;
+
+        if (field === "start_date" || field === "end_date") {
+          input.type = "date";
+        } else if (field === "progress") {
+          input.type = "number";
+          input.min = 0;
+          input.max = 100;
+        } else {
+          input.type = "text";
+        }
+
+        cell.appendChild(input);
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Create a Project Tracker</h1>
+  <form action="/create_tracker" method="POST">
+    <label for="project_name">Project Name:</label><br>
+    <input type="text" name="project_name" required><br><br>
+
+    <table id="taskTable">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Priority</th>
+          <th>Progress (%)</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input name="task" required></td>
+          <td><input name="status" required></td>
+          <td><input name="owner" required></td>
+          <td><input name="start_date" type="date" required></td>
+          <td><input name="end_date" type="date" required></td>
+          <td><input name="priority" required></td>
+          <td><input name="progress" type="number" min="0" max="100" required></td>
+          <td><input name="remarks" required></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" onclick="addRow()" class="add-row">+ Add Task</button><br>
+    <button type="submit" class="submit-btn">Generate Excel</button>
+  </form>
+
+</body>
+</html>

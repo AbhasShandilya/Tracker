@@ -31,7 +31,7 @@ def load_user(user_id):
 google_bp = make_google_blueprint(
     client_id="294586716366-843n82lvud6f66f8ihul2jbh0i7lptgi.apps.googleusercontent.com",
     client_secret="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",
-    redirect_url="https://tracker-77o2.onrender.com/login/callback"
+    redirect_url="https://tracker-77o2.onrender.com/login/callback",
     scope=["profile", "email"]
 )
 app.register_blueprint(google_bp, url_prefix="/login")

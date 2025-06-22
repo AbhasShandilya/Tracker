@@ -13,6 +13,7 @@ app.secret_key = "supersecretkey"  # Replace with a secure secret key in product
 google_bp = make_google_blueprint(
     client_id="294586716366-843n82lvud6f66f8ihul2jbh0i7lptgi.apps.googleusercontent.com",
     client_secret="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",
+    redirect_url="https://tracker-77o2.onrender.com/login/google/authorized",
     scope=["profile", "email"]
 )
 app.register_blueprint(google_bp, url_prefix="/login")
